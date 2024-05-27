@@ -1,22 +1,23 @@
-import { Resend } from "resend";
+import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const domain = process.env.NEXT_PUBLIC_APP_URL;
 
 export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
   await resend.emails.send({
-    from: "onboarding@resend.dev",
+    from: 'onboarding@resend.dev',
     to: email,
-    subject:"Your 2FA Code to login",
-    html:`<p>Your 2FA code to login ${token}</p>`
+    subject: 'Your 2FA Code to login',
+    html: `<p>Your 2FA code to login ${token}</p>`,
   });
 };
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-  const resetLink = `https://3000-narayanasamy06-nextauth-oi574dwvttr.ws-us114.gitpod.io/auth/new-password?token=${token}`;
+  const resetLink = `${domain}/auth/new-password?token=${token}`;
   await resend.emails.send({
-    from: "onboarding@resend.dev",
+    from: 'onboarding@resend.dev',
     to: email,
-    subject: "Reset your password",
+    subject: 'Reset your password',
     html: `
         <p><a href="${resetLink}">Click </a>to confirm your email</p>
     <!DOCTYPE html>
@@ -98,12 +99,12 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
 };
 
 export const sendVerificationEmail = async (email: string, token: string) => {
-  const confirmLink = `https://3000-narayanasamy06-nextauth-oi574dwvttr.ws-us114.gitpod.io/auth/new-verification?token=${token}`;
+  const confirmLink = `${domain}/auth/new-verification?token=${token}`;
 
   await resend.emails.send({
-    from: "onboarding@resend.dev",
+    from: 'onboarding@resend.dev',
     to: email,
-    subject: "Confirm your email",
+    subject: 'Confirm your email',
     html: `
     <p><a href="${confirmLink}">Click </a>to confirm your email</p>
 <!DOCTYPE html>
